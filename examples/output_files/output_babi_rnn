@@ -1,0 +1,10 @@
+Using Theano backend.
+Couldn't import dot_parser, loading of dot files will not be possible.
+RNN / Embed / Sent / Query = <class 'keras.layers.recurrent.LSTM'>, 50, 100, 100
+Downloading data from http://www.thespermwhale.com/jaseweston/babi/tasks_1-20_v1-2.tar.gz
+Traceback (most recent call last):
+  File "babi_rnn.py", line 149, in <module>
+    path = get_file('babi-tasks-v1-2.tar.gz', origin='http://www.thespermwhale.com/jaseweston/babi/tasks_1-20_v1-2.tar.gz')
+  File "/usr/local/lib/python2.7/dist-packages/Keras-1.0.3-py2.7.egg/keras/utils/data_utils.py", line 70, in get_file
+    raise Exception(error_msg.format(origin, e.errno, e.reason))
+Exception: URL fetch failure on http://www.thespermwhale.com/jaseweston/babi/tasks_1-20_v1-2.tar.gz: None -- Forbidden
