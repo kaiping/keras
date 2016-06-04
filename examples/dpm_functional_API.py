@@ -20,7 +20,7 @@ from keras.models import Model
 from keras.layers import Dense, Activation
 from keras.layers import Input
 from keras.layers import LSTM, SimpleRNN, GRU
-from keras.layers import Merge
+from keras.layers import merge
 from keras.optimizers import RMSprop
 from keras.utils import np_utils
 import numpy as np
@@ -98,10 +98,10 @@ dense2 = Dense(dense_dim)(time_input)
 print('dense2 shape: ', dense2.shape)
 
 # Merge these two inputs together
-merge = Merge([dense1, dense2], mode='sum')
-print('merge shape: ', merge.shape)
+merge_output = merge([dense1, dense2], mode='sum')
+print('merge shape: ', merge_output.shape)
 
-activation = Activation('tanh')(merge)
+activation = Activation('tanh')(merge_output)
 print('activation shape: ', activation.shape)
 prediction = Dense(1)(activation)
 print('prediction shape: ', prediction.shape)
@@ -110,4 +110,9 @@ model = Model(input=[feature_input, time_input], output=[prediction])
 
 model.compile(optimizer='rmsprop', loss='mean_squared_error', metrics=['mean_squared_error'])
 
-model.fit([X_train, T_train], [Y_train], nb_epoch=nb_epochs, batch_size=batch_sizes, validation_data=([X_test, T_test], [Y_test]))
+history = model.fit([X_train, T_train], [Y_train], nb_epoch=nb_epochs, batch_size=batch_sizes, validation_data=([X_test, T_test], [Y_test]))
+
+#print history.history
+
+
+pass
