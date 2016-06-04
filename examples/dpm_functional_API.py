@@ -84,19 +84,27 @@ print(X_test.shape[0], 'test samples')
 
 print('Evaluate DPM Model1..')
 # Feature input part
-feature_input = Input(shape=(batch_sizes, time_steps,feature_dim), name='feature_input')
-gru_out = GRU(rnn_dim)(feature_input)
+feature_input = Input(shape=(time_steps,feature_dim), name='feature_input')
+print('feature_input shape: ', feature_input.shape)
+gru_out = GRU(rnn_dim, input_dim=feature_dim, input_length=time_steps)(feature_input)
+print('GRU shape: ', gru_out.shape)
 dense1 = Dense(dense_dim)(gru_out)
+print('dense1 shape: ', dense1.shape)
 
 # Delta time input part
-time_input = Input(shape=(batch_sizes,1,1), name='time_input')
+time_input = Input(shape=(1,), name='time_input')
+print('time input shape: ', time_input.shape)
 dense2 = Dense(dense_dim)(time_input)
+print('dense2 shape: ', dense2.shape)
 
 # Merge these two inputs together
 merge = Merge([dense1, dense2], mode='sum')
+print('merge shape: ', merge.shape)
 
 activation = Activation('tanh')(merge)
+print('activation shape: ', activation.shape)
 prediction = Dense(1)(activation)
+print('prediction shape: ', prediction.shape)
 
 model = Model(input=[feature_input, time_input], output=[prediction])
 
