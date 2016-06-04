@@ -15,7 +15,6 @@ Reaches 0.93 train/test accuracy after 900 epochs
 
 # This is for running our DPM Model1 in Keras
 
-from __future__ import print_function
 from keras.models import Model
 from keras.layers import Dense, Activation
 from keras.layers import Input
@@ -42,22 +41,22 @@ rnn_dim = 512
 #(X_train, y_train), (X_test, y_test) = mnist.load_data()
 
 # Feed in the data files by ourselves
-file_x_train = open("data-test20-train30/train_data842");
+file_x_train = open("data-test1053-train9476/train_data602");
 X_train = np.genfromtxt(file_x_train, delimiter = ",");
 
-file_y_train = open("data-test20-train30/train_label842");
+file_y_train = open("data-test1053-train9476/train_label602");
 Y_train = np.genfromtxt(file_y_train, delimiter = ",");
 
-file_t_train = open("data-test20-train30/train_time842");
+file_t_train = open("data-test1053-train9476/train_time602");
 T_train = np.genfromtxt(file_t_train, delimiter = ",");
 
-file_x_test = open("data-test20-train30/test_data907");
+file_x_test = open("data-test1053-train9476/test_data820");
 X_test = np.genfromtxt(file_x_test, delimiter = ",");
 
-file_y_test = open("data-test20-train30/test_label907");
+file_y_test = open("data-test1053-train9476/test_label820");
 Y_test = np.genfromtxt(file_y_test, delimiter = ",");
 
-file_t_test = open("data-test20-train30/test_time907");
+file_t_test = open("data-test1053-train9476/test_time820");
 T_test = np.genfromtxt(file_t_test, delimiter = ",");
 
 
@@ -69,42 +68,42 @@ X_test = X_test.reshape(X_test.shape[0], time_steps, feature_dim)
 #X_train = X_train.astype('float32')
 #X_test = X_test.astype('float32')
 
-print('X_train shape:', X_train.shape)
-print('Y_train shape:', Y_train.shape)
-print('T_train shape:', T_train.shape)
+print 'X_train shape:', X_train.shape
+print 'Y_train shape:', Y_train.shape
+print 'T_train shape:', T_train.shape
 
-print('X_test shape:', X_test.shape)
-print('Y_test shape:', Y_test.shape)
-print('T_test shape:', T_test.shape)
+print 'X_test shape:', X_test.shape
+print 'Y_test shape:', Y_test.shape
+print 'T_test shape:', T_test.shape
 
-print(X_train.shape[0], 'train samples')
-print(X_test.shape[0], 'test samples')
+print X_train.shape[0], 'train samples\n'
+print X_test.shape[0], 'test samples\n'
 
 
 
-print('Evaluate DPM Model1..')
+print 'Evaluate DPM Model1..'
 # Feature input part
 feature_input = Input(shape=(time_steps,feature_dim), name='feature_input')
-print('feature_input shape: ', feature_input.shape)
+#print('feature_input shape: ', feature_input.shape)
 gru_out = GRU(rnn_dim, input_dim=feature_dim, input_length=time_steps)(feature_input)
-print('GRU shape: ', gru_out.shape)
+#print('GRU shape: ', gru_out.shape)
 dense1 = Dense(dense_dim)(gru_out)
-print('dense1 shape: ', dense1.shape)
+#print('dense1 shape: ', dense1.shape)
 
 # Delta time input part
 time_input = Input(shape=(1,), name='time_input')
-print('time input shape: ', time_input.shape)
+#print('time input shape: ', time_input.shape)
 dense2 = Dense(dense_dim)(time_input)
-print('dense2 shape: ', dense2.shape)
+#print('dense2 shape: ', dense2.shape)
 
 # Merge these two inputs together
 merge_output = merge([dense1, dense2], mode='sum')
-print('merge shape: ', merge_output.shape)
+#print('merge shape: ', merge_output.shape)
 
 activation = Activation('tanh')(merge_output)
-print('activation shape: ', activation.shape)
+#print('activation shape: ', activation.shape)
 prediction = Dense(1)(activation)
-print('prediction shape: ', prediction.shape)
+#print('prediction shape: ', prediction.shape)
 
 model = Model(input=[feature_input, time_input], output=[prediction])
 
@@ -112,7 +111,8 @@ model.compile(optimizer='rmsprop', loss='mean_squared_error', metrics=['mean_squ
 
 history = model.fit([X_train, T_train], [Y_train], nb_epoch=nb_epochs, batch_size=batch_sizes, validation_data=([X_test, T_test], [Y_test]))
 
-#print history.history
+print "Some history information\n"
+print history.history
 
 
-pass
+#pass
