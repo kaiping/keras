@@ -84,12 +84,12 @@ print(X_test.shape[0], 'test samples')
 
 print('Evaluate DPM Model1..')
 # Feature input part
-feature_input = Input(shape=(time_steps,feature_dim), name='feature_input')
+feature_input = Input(shape=(batch_sizes, time_steps,feature_dim), name='feature_input')
 gru_out = GRU(rnn_dim)(feature_input)
 dense1 = Dense(dense_dim)(gru_out)
 
 # Delta time input part
-time_input = Input(shape=(1,1), name='time_input')
+time_input = Input(shape=(batch_sizes,1,1), name='time_input')
 dense2 = Dense(dense_dim)(time_input)
 
 # Merge these two inputs together
