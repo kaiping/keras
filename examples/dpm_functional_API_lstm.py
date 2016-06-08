@@ -85,9 +85,9 @@ print 'Evaluate DPM Model1..'
 # Feature input part
 feature_input = Input(shape=(time_steps,feature_dim), name='feature_input')
 #print('feature_input shape: ', feature_input.shape)
-gru_out = LSTM(rnn_dim, input_dim=feature_dim, input_length=time_steps)(feature_input)
+lstm_out = LSTM(rnn_dim, input_dim=feature_dim, input_length=time_steps)(feature_input)
 #print('GRU shape: ', gru_out.shape)
-dense1 = Dense(dense_dim)(gru_out)
+dense1 = Dense(dense_dim)(lstm_out)
 #print('dense1 shape: ', dense1.shape)
 
 # Delta time input part
