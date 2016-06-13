@@ -17,6 +17,7 @@ Reaches 0.93 train/test accuracy after 900 epochs
 
 from keras.models import Model
 from keras.layers import Dense, Activation
+from keras.layers import TimeDistributed
 from keras.layers import Input
 from keras.layers import LSTM, SimpleRNN, GRU
 from keras.layers import merge
@@ -88,7 +89,7 @@ feature_input = Input(shape=(time_steps,feature_dim), name='feature_input')
 #print('feature_input shape: ', feature_input.shape)
 
 # Add an embedding layer between sparse input and GRU layer
-embed_data = Dense(embed_dim)(feature_input)
+embed_data = TimeDistributed(Dense(embed_dim))(feature_input)
 
 gru_out = GRU(rnn_dim, input_dim=embed_dim, input_length=time_steps)(embed_data)
 #print('GRU shape: ', gru_out.shape)
