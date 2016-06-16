@@ -33,10 +33,10 @@ learning_rate = 0.002 # consistent with our Model1 in singa
 #clip_norm = 1.0
 clip_norm = 2.5
 
-#time_steps = 50
-#feature_dim = 6035
+time_steps = 3 # here means window number
+feature_dim = 5091 # 5089 medical features + 2 demographical features
 dense_dim = 20
-#rnn_dim = 512
+rnn_dim = 512
 # the data, shuffled and split between train and test sets
 #(X_train, y_train), (X_test, y_test) = mnist.load_data()
 
@@ -57,6 +57,7 @@ X_train = train_data_part[:,0:15273]
 T_train = train_data_part[:,15273:15274]
 Y_train = train_data_part[:,15274:15275]
 
+print "All data shape:", all_data.shape
 print 'X_train shape:', X_train.shape
 print 'Y_train shape:', Y_train.shape
 print 'T_train shape:', T_train.shape
@@ -68,9 +69,10 @@ print 'T_test shape:', T_test.shape
 print X_train.shape[0], 'train samples\n'
 print X_test.shape[0], 'test samples\n'
 
+X_train = X_train.reshape(X_train.shape[0], time_steps, feature_dim)
+X_test = X_test.reshape(X_test.shape[0], time_steps, feature_dim)
 
-
-print 'Evaluate DPM Baseline1...Dense Model'
+print 'Evaluate DPM Baseline1...3 windows...CutPoint=12months...GRU Model'
 # Feature input part
 feature_input = Input(shape=(time_steps,feature_dim), name='feature_input')
 #print('feature_input shape: ', feature_input.shape)
